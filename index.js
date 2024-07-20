@@ -1,18 +1,24 @@
 require('dotenv').config();
-const { Client, Events, GatewayIntentBits } = require('discord.js');
+console.log('Token:', process.env.DISCORD_TOKEN);  // Add this line to check the token
+const { Client, GatewayIntentBits } = require('discord.js');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const client = new Client({ 
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] 
+});
 
-client.on("messageCreate", (message)=>{
-    // console.log(message);
-    if(message.author.bot) return;
+client.on("messageCreate", (message) => {
+    if (message.author.bot) return;
     message.reply({
-        content: "Hi I AM BOT"
+        content: "Hi, I AM BOT"
     });
 });
 
-client.on('interactionCreate',(interaction)=>{
-    console.log(interaction);
-    interaction.reply('pong');
+client.on('interactionCreate', (interaction) => {
+    if (!interaction.isCommand()) return;
+
+    if (interaction.commandName === 'ping') {
+        interaction.reply('pong');
+    }
 });
-client.login("MTI2NDEyMzczOTkwNjUxMDg0OA.GkLAC5.J9m0W07TBQ73Pykwfw2jLPsjHAdQnvyBnauEc4");
+
+client.login(process.env.DISCORD_TOKEN);

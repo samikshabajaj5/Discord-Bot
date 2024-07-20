@@ -1,3 +1,5 @@
+require('dotenv').config();
+console.log('Client ID:', process.env.Client);
 const { REST, Routes } = require('discord.js');
 const commands = [
     {
@@ -5,14 +7,14 @@ const commands = [
         description: 'Replies with Pong!',
     },
 ];
-const rest = new REST({ version: '10' }).setToken('MTI2NDEyMzczOTkwNjUxMDg0OA.GkLAC5.J9m0W07TBQ73Pykwfw2jLPsjHAdQnvyBnauEc4');
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
    
     (async () => {
        try {
   console.log('Started refreshing application (/) commands.');
 
-  await rest.put(Routes.applicationCommands('1264123739906510848'), { body: commands });
+  await rest.put(Routes.applicationCommands(process.env.Client), { body: commands });
 
   console.log('Successfully reloaded application (/) commands.');
 } catch (error) {
